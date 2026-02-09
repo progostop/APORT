@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aport - 투명한 아파트 관리 서비스</title>
+    <!-- Tailwind CSS CDN 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter 폰트 설정 (기본적으로 깨끗한 폰트 사용) -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', 'Malgun Gothic', 'Dotum', sans-serif;
+            background-color: #f7f9fb; /* 약간 밝은 배경색 */
+        }
+    </style>
+    <!-- Font Awesome 아이콘 로드 (편의를 위해) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- 헤더 섹션: 로고, 메인 메뉴, 유틸리티 버튼 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- 로고 -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-3xl font-extrabold text-blue-700 tracking-tight">
+                        a<span class="text-gray-800">port</span>
+                    </a>
+                    <span class="text-xs ml-2 text-gray-500 hidden sm:inline">투명하고 스마트한 아파트 관리</span>
+                </div>
+
+                <!-- 메인 네비게이션 (데스크탑) -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="text-gray-800 hover:text-blue-600 transition duration-150 font-medium py-1 border-b-2 border-transparent hover:border-blue-600">아파트 관리</a>
+                    <a href="#" class="text-gray-800 hover:text-blue-600 transition duration-150 font-medium py-1 border-b-2 border-transparent hover:border-blue-600">장기수선계획</a>
+                    <a href="#" class="text-gray-800 hover:text-blue-600 transition duration-150 font-medium py-1 border-b-2 border-transparent hover:border-blue-600">관리비 비교</a>
+                    <a href="#" class="text-gray-800 hover:text-blue-600 transition duration-150 font-medium py-1 border-b-2 border-transparent hover:border-blue-600">보험료 비교</a>
+                </nav>
+
+                <!-- 유틸리티 버튼 및 모바일 메뉴 버튼 -->
+                <div class="flex items-center space-x-3">
+                    <button class="text-gray-600 hover:text-blue-600 focus:outline-none hidden sm:block">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a href="#" class="px-4 py-1.5 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-150 shadow-md hidden sm:block">로그인</a>
+                    <a href="#" class="px-4 py-1.5 text-sm font-semibold text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition duration-150 hidden sm:block">회원가입</a>
+                    
+                    <!-- 모바일 메뉴 버튼 -->
+                    <button id="mobile-menu-button" class="md:hidden p-2 rounded-lg text-gray-800 hover:bg-gray-100 focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 모바일 메뉴 (숨김 상태) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-200">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-50">아파트 관리</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-50">장기수선계획</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-50">관리비 비교</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:bg-blue-50">보험료 비교</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:bg-blue-50">로그인</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-blue-600 hover:bg-blue-50">회원가입</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- 1. 메인 히어로 섹션/검색 (K-apt 스타일의 주요 안내 및 검색 기능) -->
+        <section class="bg-blue-50 p-8 md:p-12 rounded-xl shadow-lg mb-10">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-800 mb-2">우리 아파트 관리, aport에서 시작하세요</h1>
+            <p class="text-lg text-gray-600 mb-6">전국 아파트의 투명한 관리비 정보와 장기수선계획을 한눈에 비교하고 확인하세요.</p>
+            
+            <!-- 아파트 검색 영역 -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 bg-white p-4 rounded-xl shadow-inner">
+                <input type="text" placeholder="아파트 명 또는 단지 코드를 입력하세요" 
+                       class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-base">
+                <button class="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-150 flex-shrink-0 flex items-center justify-center space-x-2">
+                    <i class="fas fa-search"></i>
+                    <span>통합 검색</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 2. 핵심 서비스 요약 (4대 주요 기능 강조) -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 border-b-2 border-blue-500 pb-1 inline-block">핵심 서비스</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                
+                <!-- 카드 1: 아파트 관리 -->
+                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 text-center cursor-pointer">
+                    <div class="text-4xl text-blue-600 mb-3"><i class="fas fa-city"></i></div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-1">아파트 관리</h3>
+                    <p class="text-sm text-gray-500 hidden sm:block">단지별 주요 관리 현황 정보</p>
+                </div>
+                
+                <!-- 카드 2: 장기수선계획 -->
+                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 text-center cursor-pointer">
+                    <div class="text-4xl text-green-600 mb-3"><i class="fas fa-toolbox"></i></div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-1">장기수선계획</h3>
+                    <p class="text-sm text-gray-500 hidden sm:block">수선계획 및 적립 현황 확인</p>
+                </div>
+                
+                <!-- 카드 3: 관리비 비교 -->
+                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 text-center cursor-pointer">
+                    <div class="text-4xl text-orange-600 mb-3"><i class="fas fa-chart-bar"></i></div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-1">관리비 비교</h3>
+                    <p class="text-sm text-gray-500 hidden sm:block">전국 단지별 관리비 비교 분석</p>
+                </div>
+
+                <!-- 카드 4: 보험료 비교 -->
+                <div class="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 text-center cursor-pointer">
+                    <div class="text-4xl text-red-600 mb-3"><i class="fas fa-shield-alt"></i></div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-1">보험료 비교</h3>
+                    <p class="text-sm text-gray-500 hidden sm:block">화재보험료 등 비교 서비스</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 3. 공지사항 및 주요 정보 (뉴스/통계) 분할 섹션 -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+            
+            <!-- 공지사항 (좌측 2/3, 모바일에서는 전체) -->
+            <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md">
+                <div class="flex justify-between items-center border-b pb-2 mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">공지사항</h2>
+                    <a href="#" class="text-sm text-gray-500 hover:text-blue-600">더보기 +</a>
+                </div>
+                
+                <ul class="space-y-3">
+                    <!-- 공지 1 -->
+                    <li class="flex justify-between items-center text-gray-700 text-base border-b last:border-b-0 py-1">
+                        <a href="#" class="hover:text-blue-600 truncate mr-4">투명한 아파트 관리 정보 공개를 위한 시스템 점검 안내</a>
+                        <span class="text-sm text-gray-400 flex-shrink-0">2024.08.01</span>
+                    </li>
+                    <!-- 공지 2 -->
+                    <li class="flex justify-between items-center text-gray-700 text-base border-b last:border-b-0 py-1">
+                        <a href="#" class="hover:text-blue-600 truncate mr-4">관리비 세부 항목 기준 변경에 따른 안내</a>
+                        <span class="text-sm text-gray-400 flex-shrink-0">2024.07.25</span>
+                    </li>
+                    <!-- 공지 3 -->
+                    <li class="flex justify-between items-center text-gray-700 text-base border-b last:border-b-0 py-1">
+                        <a href="#" class="hover:text-blue-600 truncate mr-4">aport 서비스 신규 기능 추가 (보험료 비교)</a>
+                        <span class="text-sm text-gray-400 flex-shrink-0">2024.07.15</span>
+                    </li>
+                    <!-- 공지 4 -->
+                    <li class="flex justify-between items-center text-gray-700 text-base border-b last:border-b-0 py-1">
+                        <a href="#" class="hover:text-blue-600 truncate mr-4">공공데이터 API 사용 방법 및 가이드라인</a>
+                        <span class="text-sm text-gray-400 flex-shrink-0">2024.07.01</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- 주요 정보 (우측 1/3, 통계/배너) -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">주요 통계</h2>
+                
+                <div class="space-y-4">
+                    <!-- 통계 1: 전국 관리 공개 단지 수 (기존 데이터 유지) -->
+                    <div class="border p-4 rounded-lg bg-gray-50">
+                        <p class="text-sm text-gray-500">전국 관리 공개 단지 수</p>
+                        <p class="text-2xl font-bold text-blue-600">18,450 <span class="text-lg font-normal text-gray-500">개 단지</span></p>
+                    </div>
+                    <!-- 통계 2: 전국 아파트 총 세대수 (2023년 통계청 데이터 반영) -->
+                    <div class="border p-4 rounded-lg bg-gray-50">
+                        <p class="text-sm text-gray-500">전국 아파트 총 세대 수 (2023년 기준)</p>
+                        <p class="text-2xl font-bold text-green-600">1,263만 <span class="text-lg font-normal text-gray-500">호</span></p>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <a href="#" class="block w-full text-center py-3 bg-gray-800 text-white font-semibold rounded-lg hover:bg-gray-700 transition duration-150">
+                        <i class="fas fa-question-circle mr-2"></i> Q&A 게시판 바로가기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. 하단 배너/바로가기 (협력 기관 등) -->
+        <section class="bg-blue-700 p-8 rounded-xl shadow-lg mb-10 text-white">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <h3 class="text-2xl font-bold mb-4 md:mb-0">아파트 관련 법령 및 규정을 확인하세요</h3>
+                <a href="#" class="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg hover:bg-gray-100 transition duration-150 shadow-md">
+                    법령 정보 센터 <i class="fas fa-chevron-right ml-2 text-sm"></i>
+                </a>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- 푸터 섹션 -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 border-b border-gray-700 pb-6 mb-6">
+                
+                <!-- 푸터 메뉴 1 -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-3 text-blue-400">aport 소개</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">사이트 소개</a></li>
+                        <li><a href="#" class="hover:text-white">이용 약관</a></li>
+                        <li><a href="#" class="hover:text-white">개인정보처리방침</a></li>
+                    </ul>
+                </div>
+
+                <!-- 푸터 메뉴 2 -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-3 text-blue-400">주요 서비스</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">관리비 조회</a></li>
+                        <li><a href="#" class="hover:text-white">장기수선충당금 계산</a></li>
+                        <li><a href="#" class="hover:text-white">전자 입찰 시스템</a></li>
+                    </ul>
+                </div>
+
+                <!-- 푸터 메뉴 3 -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-3 text-blue-400">고객 센터</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">FAQ</a></li>
+                        <li><a href="#" class="hover:text-white">1:1 문의</a></li>
+                        <li><a href="#" class="hover:text-white">자료실</a></li>
+                    </ul>
+                </div>
+
+                <!-- 연락처 정보 -->
+                <div>
+                    <h4 class="font-semibold text-lg mb-3 text-blue-400">Contact Us</h4>
+                    <p class="text-sm text-gray-400">
+                        (06154) 서울특별시 aport구 aport로 1234<br>
+                        대표번호: 1588-0000<br>
+                        이메일: contact@aport.or.kr
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center text-sm text-gray-500">
+                &copy; 2024 aport. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Toggling and Firebase Setup -->
+    <script type="module">
+        // ----------------------------------------------------------------------
+        // 1. 모바일 메뉴 토글 기능
+        // ----------------------------------------------------------------------
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // ----------------------------------------------------------------------
+        // 2. Firebase 및 인증 설정 (실제 웹 환경을 위한 초기화 코드 포함)
+        //    현재는 화면 디자인 위주이므로, Firestore 연결은 주석 처리합니다.
+        //    필요시 주석을 해제하고 사용하실 수 있습니다.
+        // ----------------------------------------------------------------------
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Canvas 환경 변수 사용
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let app, auth, db;
+
+        if (firebaseConfig) {
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                
+                // 인증 상태 지속성 설정 및 로그인
+                setPersistence(auth, browserSessionPersistence).then(() => {
+                    if (initialAuthToken) {
+                        signInWithCustomToken(auth, initialAuthToken).catch(error => {
+                            console.error("Custom Token Sign In Failed:", error);
+                            signInAnonymously(auth);
+                        });
+                    } else {
+                        signInAnonymously(auth);
+                    }
+                }).catch((error) => {
+                    console.error("Setting Persistence Failed:", error);
+                    if (!initialAuthToken) {
+                        signInAnonymously(auth);
+                    }
+                });
+
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        // 사용자 로그인됨 (Firestore 작업 가능)
+                        // console.log("User signed in:", user.uid);
+                    } else {
+                        // 사용자 로그아웃됨
+                        // console.log("User signed out or anonymous.");
+                    }
+                });
+
+            } catch (e) {
+                console.error("Firebase Initialization Error:", e);
+            }
+        }
+        
+        // 참고: 현재는 메인 화면 디자인이므로 Firestore 데이터 연동 로직은 생략되었습니다.
+
+    </script>
+</body>
+</html>
